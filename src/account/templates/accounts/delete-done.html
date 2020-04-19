@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+<form class="form-signin" action="." method="POST">{% csrf_token %}
+    <div class="md-4">
+        <div class="card my-4">
+            <h2 class="card-header">Account Deletion</h2>
+            <div class="card-body">
+                <h5 class="m-auto">Your account was successfully deleted!</h5>
+
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+{% endblock %}

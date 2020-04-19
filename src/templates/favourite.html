@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <!-- loader-wrapper -->
+	<div id="loader-wrapper">
+
+		<div id="loader"></div>
+
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
+	</div>
+ <!-- Page Content -->
+  <div class="container">
+
+
+
+    <div class="row">
+
+      <!-- Newsfeed Column - Center-->
+      <div class="col-md-8">
+
+
+            {% if not articles %}
+                <h5 class="card my-4 text-center card-header">You don't have favourite articles</h5>
+            {% else %}
+                <h5 class="card my-4 text-center card-header">Hello {{request.user.username}}, your favorite articles:</h5>
+                {% for article in articles %}
+                    <div class="card mb-4">
+                        <img class="card-img-top" src="{{ article.image }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ article.headline }}</h2>
+                            <p class="card-text">{{ article.body }}</p>
+                            <a href="{{ article.url }}"  target="_blank" class="btn btn-primary">Read More &rarr;</a>
+                            <a href="{% url 'favourite2' pk=article.pk %}" class="btn btn-outline-info">Remove from Favourite</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Posted on {{ article.date | date:"F d Y" }} by
+                            {% if article.source == "BBC" %}
+                                <a href="https://www.bbc.co.uk" target= _blank>BBC News UK</a>
+                            {% elif article.source == "The Guardian" %}
+                                <a href="https://www.theguardian.com" target= _blank>The Guardian</a>
+                            {% elif article.source == "The Independent" %}
+                                <a href="https://www.independent.co.uk" target= _blank>The Independent</a>
+                            {% else %}
+                                <a href="">Unknown Source</a>
+                            {% endif %}
+                            Category: <b>{{ article.category | title }}</b> <br>
+                            <div class="fb-share-button" data-href=" {{ article.url }} " data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+                            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                            <script type="IN/Share" data-url=" {{ article.url }} "></script>
+
+                        </div>
+
+                    </div>
+                  {% endfor %}
+            {% endif %}
+
+
+
+
+
+       </div>
+      <!--  END Newsfeed Column - Center-->
+
+      <!-- Sidebar Widgets Column -->
+
+      <div class="col-md-4">
+
+        <!-- Google Search Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Google Search</h5>
+          <div class="card-body">
+             <script async src="https://cse.google.com/cse.js?cx=006123870317195605680:n8md2sdooq7"></script>
+              <div class="gcse-search"></div>
+          </div>
+        </div>
+        <!-- END Google Search Widget  -->
+        <div class="card my-4">
+          <h5 class="card-header">Weather Forecast</h5>
+          <div class="card-body">
+          <!-- weather widget start -->
+              <a class="weatherwidget-io" href="https://forecast7.com/en/51d51n0d13/london/" data-label_1="LONDON" data-suncolor="#f2b800" data-mooncolor="#ffd300" data-cloudfill="#bcb8b8" data-raincolor="#69bdf7" >
+                  LONDON
+              </a>
+              <script>
+                !function(d,s,id){
+                    var js,fjs=d.getElementsByTagName(s)[0];
+                    if(!d.getElementById(id)){
+                        js=d.createElement(s);
+                        js.id=id;
+                        js.src='https://weatherwidget.io/js/widget.min.js';
+                        fjs.parentNode.insertBefore(js,fjs);
+                    }
+                 }
+                 (document,'script','weatherwidget-io-js');
+              </script>
+          <!-- weather widget start -->
+            <!-- https://weatherwidget.io/-->
+          </div>
+            </div>
+
+
+      </div>
+      <!-- END Side Widget -->
+    </div>
+  </div>
+
+
+
+
+{% endblock content %}
+ <!-- Page Content -->

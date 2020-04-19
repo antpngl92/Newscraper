@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style type="text/css">
+  .form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  }
+
+  .form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type="email"] {
+    margin-bottom: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="username"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .h3{
+    text-align: center;
+  }
+</style>
+
+<form class="form-signin" method="POST">{% csrf_token %}
+  <h1 class="h3 mb-3 font-weight-normal">Account Settings</h1>
+     <!-- If there is at least 1 source and 1 category display normal "note" message -->
+    {% if account_form.guardianSource.value == True or account_form.bbcSource.value == True or account_form.independentSource.value == True  %}
+        {% if account_form.categoryTech.value == True or account_form.categoryPolitics.value == True or account_form.categorySport.value == True %}
+            <h6 class="text-muted">NOTE: You <b>MUST</b> select at least 1 source and 1 category!!!</h6>
+        <!-- If there were not errors display successful message -->
+	{% if success_message %}
+        <p style = "color: green; text-align:center;">{{success_message}}</p>
+    {% endif %}
+
+        {%else %}
+            <div  id="error_message">
+                <div class="alert alert-danger card-header text-center flashit">
+                    <strong>Warning!</strong> No source and category selected!<br>
+                    You <b>MUST</b> select at least 1 source and 1 category!!!
+                </div>
+            </div>
+        {% endif %}
+
+    {% else %} <!-- If  user has not provided any source and categories display a warning message -->
+    <div  id="error_message">
+        <div class="alert alert-danger card-header text-center flashit">
+            <strong>Warning!</strong> No source and category selected!<br>
+            You <b>MUST</b> select at least 1 source and 1 category!!!
+        </div>
+    </div>
+
+    {% endif %}
+     <!-- loop through the fields of the account form -->
+    {% for field in account_form %}
+        <p>
+            {% for error in field.errors %}
+                <p sttle="color:red"> {{ error }}</p>
+            {% endfor %}
+        </p>
+    {% endfor %}
+
+    {% if account_form.non_field_errors %}
+        <div style="color:red;">
+            <p>{{account_form.non_field_errors}}</p>
+        </div>
+    {% endif %}
+  <label for="username" class="sr-only">Username</label>
+  <input type="text"   name="username" id="username" class="form-control" placeholder="Username"   value="{{account_form.initial.username}}" required><br>
+
+  <div  class="form-control">
+    <p><b>Please choose news sources!</b></p>
+    <label>The Guardian</label> {{ account_form.guardianSource }}<br>
+    <label>BBC News</label> {{account_form.bbcSource}}<br>
+    <label>The Independent</label> {{account_form.independentSource}}
+  </div>
+    <br>
+  <div  class="form-control">
+    <p><b>Please choose news category!</b></p>
+    <label>Technology</label> {{account_form.categoryTech}}<br>
+    <label>Politics</label> {{account_form.categoryPolitics}}<br>
+    <label>Sport</label> {{account_form.categorySport}}
+  </div>
+
+
+
+
+    <div class="d-flex flex-column">
+        <a class="m-auto" href="{% url 'password_change' %}">Change password</a>
+        <a class="m-auto" href="{% url 'account-delete' %}">Delete Account</a>
+    </div><br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Save Changes</button>
+
+
+</form>
+
+{% endblock content %}

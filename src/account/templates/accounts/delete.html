@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .form-signin {
+      width: 100%;
+      max-width: 330px;
+      padding: 15px;
+      margin: auto;
+    }
+
+    .form-signin .form-control {
+      position: relative;
+      box-sizing: border-box;
+      height: auto;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .form-signin .form-control:focus {
+      z-index: 2;
+    }
+    .form-signin input[type="username"] {
+      margin-bottom: 10px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+      .form-signin input[type="text"] {
+      margin-bottom: 10px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    .h3{
+    text-align: center;
+    }
+
+</style>
+
+
+
+<form class="form-signin" action="." method="POST">{% csrf_token %}
+    <div class="md-4">
+        <div class="card my-4">
+            <h2 class="card-header">Account Deletion</h2>
+            <div class="card-body">
+                <p  class="h3 mb-3 font-weight-normal">{{request.user.username}}, are you sure you want to delete your account?</p>
+                <p>
+                    <input class="btn btn-lg btn-primary btn-block" type="submit" value="Yes"/>
+                    <a  class="btn btn-lg btn-primary btn-block" href="{% url 'account' %}">Cancel</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% endblock content %}
+
